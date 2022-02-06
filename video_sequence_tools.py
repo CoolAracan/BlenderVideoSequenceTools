@@ -179,42 +179,13 @@ def add_blurred_background():
 	
 	bpy.ops.sequencer.copy()
 	bpy.ops.sequencer.effect_strip_add(type='GAUSSIAN_BLUR')
-	effect = scene.sequence_editor.active_strip
+	effect = bpy.context.scene.sequence_editor.active_strip
 	effect.size_x = 100
 	effect.size_y = 100
 
 	bpy.ops.sequencer.paste()
-	duplicated_strip = scene.sequence_editor.active_strip
+	duplicated_strip = bpy.context.scene.sequence_editor.active_strip
 	duplicated_strip.frame_start = start_frame
-
-# ------------------------------------------
-# Tuples for class registration
-
-operator_classes = (
-	PAN_ZOOM_OT_clear,
-	PAN_ZOOM_OT_zoom_in,
-	PAN_ZOOM_OT_zoom_out,
-	PAN_ZOOM_OT_top_to_bottom_pan,
-	PAN_ZOOM_OT_left_to_right_pan,
-	PAN_ZOOM_OT_right_to_left_pan,
-	PAN_ZOOM_OT_top_left_to_bottom_right_pan,
-	PAN_ZOOM_OT_top_right_to_bottom_left_pan,
-	PAN_ZOOM_OT_add_blurred_background
-)
-
-classes = (
-	MULTI_FILE_IMPORT_OT_create,
-	PAN_ZOOM_OT_clear,
-	PAN_ZOOM_OT_zoom_in,
-	PAN_ZOOM_OT_zoom_out,
-	PAN_ZOOM_OT_top_to_bottom_pan,
-	PAN_ZOOM_OT_left_to_right_pan,
-	PAN_ZOOM_OT_right_to_left_pan,
-	PAN_ZOOM_OT_top_left_to_bottom_right_pan,
-	PAN_ZOOM_OT_top_right_to_bottom_left_pan,
-	PAN_ZOOM_OT_add_blurred_background,
-	SEQUENCER_MT_main
-)
 
 # ------------------------------------------
 # Classes for panning and zooming operators
@@ -248,7 +219,7 @@ class Virtual_Pan_Zoom_Base(bpy.types.Operator):
 		return context.window_manager.invoke_props_dialog(self)
 
 
-class PAN_ZOOM_OT_zoom_in(virtual_pan_zoom_base):
+class PAN_ZOOM_OT_zoom_in(Virtual_Pan_Zoom_Base):
 	bl_label = "Zoom in"
 	bl_idname = "pan_zoom.zoom_in"
 
@@ -260,7 +231,7 @@ class PAN_ZOOM_OT_zoom_in(virtual_pan_zoom_base):
 
 		return {'FINISHED'}
 
-class PAN_ZOOM_OT_zoom_out(virtual_pan_zoom_base):
+class PAN_ZOOM_OT_zoom_out(Virtual_Pan_Zoom_Base):
 	bl_label = "Zoom out"
 	bl_idname = "pan_zoom.zoom_out"	
 
@@ -272,7 +243,7 @@ class PAN_ZOOM_OT_zoom_out(virtual_pan_zoom_base):
 
 		return {'FINISHED'}	
 
-class PAN_ZOOM_OT_top_to_bottom_pan(virtual_pan_zoom_base):
+class PAN_ZOOM_OT_top_to_bottom_pan(Virtual_Pan_Zoom_Base):
 	bl_label = "Top to bottom pan"
 
 	bl_idname = "pan_zoom.top_to_bottom_pan"	
@@ -285,7 +256,7 @@ class PAN_ZOOM_OT_top_to_bottom_pan(virtual_pan_zoom_base):
 
 		return {'FINISHED'}
 
-class PAN_ZOOM_OT_left_to_right_pan(virtual_pan_zoom_base):
+class PAN_ZOOM_OT_left_to_right_pan(Virtual_Pan_Zoom_Base):
 	bl_label = "Left to right pan"
 
 	bl_idname = "pan_zoom.left_to_right_pan"	
@@ -298,7 +269,7 @@ class PAN_ZOOM_OT_left_to_right_pan(virtual_pan_zoom_base):
 
 		return {'FINISHED'}
 
-class PAN_ZOOM_OT_right_to_left_pan(virtual_pan_zoom_base):
+class PAN_ZOOM_OT_right_to_left_pan(Virtual_Pan_Zoom_Base):
 	bl_label = "Right to left pan"
 
 	bl_idname = "pan_zoom.right_to_left_pan"	
@@ -311,7 +282,7 @@ class PAN_ZOOM_OT_right_to_left_pan(virtual_pan_zoom_base):
 
 		return {'FINISHED'}
 
-class PAN_ZOOM_OT_top_left_to_bottom_right_pan(virtual_pan_zoom_base):
+class PAN_ZOOM_OT_top_left_to_bottom_right_pan(Virtual_Pan_Zoom_Base):
 	bl_label = "Top left to bottom right pan"
 
 	bl_idname = "pan_zoom.top_left_to_bottom_right_pan"	
@@ -324,7 +295,7 @@ class PAN_ZOOM_OT_top_left_to_bottom_right_pan(virtual_pan_zoom_base):
 
 		return {'FINISHED'}
 
-class PAN_ZOOM_OT_top_right_to_bottom_left_pan(virtual_pan_zoom_base):
+class PAN_ZOOM_OT_top_right_to_bottom_left_pan(Virtual_Pan_Zoom_Base):
 	bl_label = "Top right to bottom left pan"
 
 	bl_idname = "pan_zoom.top_right_to_bottom_left_pan"	
@@ -510,8 +481,8 @@ class MULTI_FILE_IMPORT_OT_create(bpy.types.Operator):
 		return {'FINISHED'}
 
 class SEQUENCER_MT_main(bpy.types.Menu):
-	bl_description = 'Multi file sequence importer by Cool Aracan'
-	bl_label = 'Multi file sequence'
+	bl_description = 'Pan/Zoom tools by Cool Aracan'
+	bl_label = 'Pan/Zoom tools'
 
 	def draw(self, context):
 		for cls in operator_classes:
@@ -522,6 +493,35 @@ def menu_draw(self, context):
 
 def menu_draw_multi_file_import(self, context):
 	self.layout.operator(MULTI_FILE_IMPORT_OT_create.bl_idname, text=MULTI_FILE_IMPORT_OT_create.bl_label, icon='NONE')
+
+# ------------------------------------------
+# Tuples for class registration
+
+operator_classes = (
+	PAN_ZOOM_OT_clear,
+	PAN_ZOOM_OT_zoom_in,
+	PAN_ZOOM_OT_zoom_out,
+	PAN_ZOOM_OT_top_to_bottom_pan,
+	PAN_ZOOM_OT_left_to_right_pan,
+	PAN_ZOOM_OT_right_to_left_pan,
+	PAN_ZOOM_OT_top_left_to_bottom_right_pan,
+	PAN_ZOOM_OT_top_right_to_bottom_left_pan,
+	PAN_ZOOM_OT_add_blurred_background
+)
+
+classes = (
+	MULTI_FILE_IMPORT_OT_create,
+	PAN_ZOOM_OT_clear,
+	PAN_ZOOM_OT_zoom_in,
+	PAN_ZOOM_OT_zoom_out,
+	PAN_ZOOM_OT_top_to_bottom_pan,
+	PAN_ZOOM_OT_left_to_right_pan,
+	PAN_ZOOM_OT_right_to_left_pan,
+	PAN_ZOOM_OT_top_left_to_bottom_right_pan,
+	PAN_ZOOM_OT_top_right_to_bottom_left_pan,
+	PAN_ZOOM_OT_add_blurred_background,
+	SEQUENCER_MT_main
+)
 	
 def register():
 	for cls in classes:
