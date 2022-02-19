@@ -362,6 +362,11 @@ class MULTI_FILE_IMPORT_OT_create(bpy.types.Operator):
 		description="Animations are linear and do not have ease in and out."
 	)
 
+	insert_at_current_frame: BoolProperty(
+		name="Insert at current frame", default=False,
+		description="All images and videos are inserted after the current frame."
+	)
+
 	# ----------------------
 	# Import function
 
@@ -372,10 +377,14 @@ class MULTI_FILE_IMPORT_OT_create(bpy.types.Operator):
 
 		added_files_counter = 0
 
-		start_frame = 0
-		end_frame = start_frame + self.image_number_frames
-
 		scene = bpy.context.scene
+
+		if self.insert_at_current_frame:
+			start_frame = scene.frame_current
+		else:
+			start_frame = 0
+
+		end_frame = start_frame + self.image_number_frames
 
 		for file in self.files:
 
@@ -456,6 +465,9 @@ class MULTI_FILE_IMPORT_OT_create(bpy.types.Operator):
 		row = box.row()
 		row.active = bpy.data.is_saved
 		row.prop(self, "linear_interpolation")
+		row = box.row()
+		row.active = bpy.data.is_saved
+		row.prop(self, "insert_at_current_frame")
 
 	def draw(self, context):
 
