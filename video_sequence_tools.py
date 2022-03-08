@@ -63,7 +63,7 @@ def set_linear_interpolation():
 def get_strip_and_strip_values():
 	strip = bpy.context.scene.sequence_editor.active_strip
 	start_frame = strip.frame_start
-	end_frame = strip.frame_final_end
+	end_frame = strip.frame_final_end - 1
 	original_zoom = strip.transform.scale_x
 
 	return strip, start_frame, end_frame, original_zoom
@@ -109,10 +109,10 @@ def zoom_out(zoom = 1.1, speed = 1.0):
 	set_strip_zoom(strip, start_frame, zoom)
 	set_strip_zoom(strip, end_frame, original_zoom)
 
-def top_to_bottom_pan(zoom = 1.1, speed = 1.0):
-	clear_keyframes()
-
+def bottom_to_top_pan(zoom = 1.1, speed = 1.0):
 	strip, start_frame, end_frame, original_zoom = get_strip_and_strip_values()
+
+	clear_keyframes()
 	
 	x,y = get_half_pixel_movement(zoom)
 	zoom *= original_zoom
@@ -121,6 +121,19 @@ def top_to_bottom_pan(zoom = 1.1, speed = 1.0):
 	set_strip_zoom(strip, start_frame, zoom)
 	set_strip_offset(strip, start_frame, 0, y)
 	set_strip_offset(strip, end_frame, 0, -y)
+
+def top_to_bottom_pan(zoom = 1.1, speed = 1.0):
+	strip, start_frame, end_frame, original_zoom = get_strip_and_strip_values()
+
+	clear_keyframes()
+	
+	x,y = get_half_pixel_movement(zoom)
+	zoom *= original_zoom
+	end_frame = start_frame + ((end_frame - start_frame) / speed)
+
+	set_strip_zoom(strip, start_frame, zoom)
+	set_strip_offset(strip, start_frame, 0, -y)
+	set_strip_offset(strip, end_frame, 0, y)
 
 def left_to_right_pan(zoom = 1.1, speed = 1.0):
 	strip, start_frame, end_frame, original_zoom = get_strip_and_strip_values()
@@ -256,6 +269,19 @@ class PAN_ZOOM_OT_top_to_bottom_pan(Virtual_Pan_Zoom_Base):
 
 		return {'FINISHED'}
 
+class PAN_ZOOM_OT_bottom_to_top_pan(Virtual_Pan_Zoom_Base):
+	bl_label = "Bottom to top pan"
+
+	bl_idname = "pan_zoom.bottom_to_top"	
+
+	def execute(self, context):
+		if not bpy.data.is_saved:
+			self.relative = False
+
+		bottom_to_top_pan(self.zoom_factor, self.speed_factor)
+
+		return {'FINISHED'}
+
 class PAN_ZOOM_OT_left_to_right_pan(Virtual_Pan_Zoom_Base):
 	bl_label = "Left to right pan"
 
@@ -325,7 +351,7 @@ class PAN_ZOOM_OT_add_blurred_background(bpy.types.Operator):
 # Class for multi file import
 
 class MULTI_FILE_IMPORT_OT_create(bpy.types.Operator):
-	bl_label = "Import images and movies as clips, many at a time"
+	bl_label = "Image/Movie sequence"
 	bl_category = "Add"
 
 	bl_idname = "multi_file_sequence.create"
@@ -413,21 +439,23 @@ class MULTI_FILE_IMPORT_OT_create(bpy.types.Operator):
 				strip = scene.sequence_editor.active_strip
 
 				#Random pan and zoom
-				random_pan_zoom = random.randrange(1,7)
+				random_pan_zoom = random.randrange(1,8)
 
 				if random_pan_zoom ==1 :  
 					left_to_right_pan(self.zoom_factor, self.speed_factor)
 				elif random_pan_zoom ==2:
 					top_to_bottom_pan(self.zoom_factor, self.speed_factor)
 				elif random_pan_zoom ==3:
-					zoom_in(self.zoom_factor, self.speed_factor)
+					bottom_to_top_pan(self.zoom_factor, self.speed_factor)
 				elif random_pan_zoom ==4:
-					zoom_out(self.zoom_factor, self.speed_factor)
+					zoom_in(self.zoom_factor, self.speed_factor)
 				elif random_pan_zoom ==5:
-					right_to_left_pan(self.zoom_factor, self.speed_factor)
+					zoom_out(self.zoom_factor, self.speed_factor)
 				elif random_pan_zoom ==6:
-					top_left_to_bottom_right_pan(self.zoom_factor, self.speed_factor)			
+					right_to_left_pan(self.zoom_factor, self.speed_factor)
 				elif random_pan_zoom ==7:
+					top_left_to_bottom_right_pan(self.zoom_factor, self.speed_factor)			
+				elif random_pan_zoom ==8:
 					top_right_to_bottom_left_pan(self.zoom_factor, self.speed_factor)					
 				
 				if(self.linear_interpolation):
@@ -514,6 +542,7 @@ operator_classes = (
 	PAN_ZOOM_OT_zoom_in,
 	PAN_ZOOM_OT_zoom_out,
 	PAN_ZOOM_OT_top_to_bottom_pan,
+	PAN_ZOOM_OT_bottom_to_top_pan,
 	PAN_ZOOM_OT_left_to_right_pan,
 	PAN_ZOOM_OT_right_to_left_pan,
 	PAN_ZOOM_OT_top_left_to_bottom_right_pan,
@@ -527,6 +556,7 @@ classes = (
 	PAN_ZOOM_OT_zoom_in,
 	PAN_ZOOM_OT_zoom_out,
 	PAN_ZOOM_OT_top_to_bottom_pan,
+	PAN_ZOOM_OT_bottom_to_top_pan,
 	PAN_ZOOM_OT_left_to_right_pan,
 	PAN_ZOOM_OT_right_to_left_pan,
 	PAN_ZOOM_OT_top_left_to_bottom_right_pan,
