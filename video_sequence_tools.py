@@ -40,6 +40,7 @@ def clear_keyframes():
 	bpy.context.area.type = 'SEQUENCE_EDITOR'
 
 	bpy.ops.sequencer.strip_transform_clear(property = 'ALL')
+	bpy.ops.sequencer.strip_transform_fit(fit_method= 'FILL')
 
 def set_linear_interpolation():
 	scene = bpy.context.scene
@@ -171,6 +172,32 @@ def top_left_to_bottom_right_pan(zoom = 1.1, speed = 1.0):
 	end_frame = start_frame + ((end_frame - start_frame) / speed)
 
 	set_strip_zoom(strip, start_frame, zoom)
+	set_strip_offset(strip, start_frame, x, -y)
+	set_strip_offset(strip, end_frame, -x, y)
+
+def bottom_right_to_top_left_pan(zoom = 1.1, speed = 1.0):
+	strip, start_frame, end_frame, original_zoom = get_strip_and_strip_values()
+
+	clear_keyframes()
+
+	x,y = get_half_pixel_movement(zoom)
+	zoom *= original_zoom
+	end_frame = start_frame + ((end_frame - start_frame) / speed)
+
+	set_strip_zoom(strip, start_frame, zoom)
+	set_strip_offset(strip, start_frame, -x, y)
+	set_strip_offset(strip, end_frame, x, -y)
+
+def bottom_left_to_top_right_pan(zoom = 1.1, speed = 1.0):
+	strip, start_frame, end_frame, original_zoom = get_strip_and_strip_values()
+
+	clear_keyframes()
+
+	x,y = get_half_pixel_movement(zoom)
+	zoom *= original_zoom
+	end_frame = start_frame + ((end_frame - start_frame) / speed)
+
+	set_strip_zoom(strip, start_frame, zoom)
 	set_strip_offset(strip, start_frame, x, y)
 	set_strip_offset(strip, end_frame, -x, -y)
 
@@ -184,8 +211,9 @@ def top_right_to_bottom_left_pan(zoom = 1.1, speed = 1.0):
 	end_frame = start_frame + ((end_frame - start_frame) / speed)
 
 	set_strip_zoom(strip, start_frame, zoom)
-	set_strip_offset(strip, start_frame, -x, y)
-	set_strip_offset(strip, end_frame, x, -y)
+	set_strip_offset(strip, start_frame, -x, -y)
+	set_strip_offset(strip, end_frame, x, y)
+
 
 def add_blurred_background():
 	strip, start_frame, end_frame, original_zoom = get_strip_and_strip_values()
@@ -334,6 +362,32 @@ class PAN_ZOOM_OT_top_right_to_bottom_left_pan(Virtual_Pan_Zoom_Base):
 
 		return {'FINISHED'}	
 
+class PAN_ZOOM_OT_bottom_left_to_top_right_pan(Virtual_Pan_Zoom_Base):
+	bl_label = "Bottom left to top right pan"
+
+	bl_idname = "pan_zoom.bottom_left_to_top_right_pan"	
+
+	def execute(self, context):
+		if not bpy.data.is_saved:
+			self.relative = False
+
+		bottom_left_to_top_right_pan(self.zoom_factor, self.speed_factor)
+
+		return {'FINISHED'}
+
+class PAN_ZOOM_OT_bottom_right_to_top_left_pan(Virtual_Pan_Zoom_Base):
+	bl_label = "Bottom right to top left pan"
+
+	bl_idname = "pan_zoom.bottom_right_to_top_left_pan"	
+
+	def execute(self, context):
+		if not bpy.data.is_saved:
+			self.relative = False
+
+		bottom_right_to_top_left_pan(self.zoom_factor, self.speed_factor)
+
+		return {'FINISHED'}	
+
 class PAN_ZOOM_OT_add_blurred_background(bpy.types.Operator):
 	bl_label = "Add blurred background"
 	bl_category = "Image"
@@ -439,7 +493,7 @@ class MULTI_FILE_IMPORT_OT_create(bpy.types.Operator):
 				strip = scene.sequence_editor.active_strip
 
 				#Random pan and zoom
-				random_pan_zoom = random.randrange(1,8)
+				random_pan_zoom = random.randrange(1,10)
 
 				if random_pan_zoom ==1 :  
 					left_to_right_pan(self.zoom_factor, self.speed_factor)
@@ -456,7 +510,11 @@ class MULTI_FILE_IMPORT_OT_create(bpy.types.Operator):
 				elif random_pan_zoom ==7:
 					top_left_to_bottom_right_pan(self.zoom_factor, self.speed_factor)			
 				elif random_pan_zoom ==8:
-					top_right_to_bottom_left_pan(self.zoom_factor, self.speed_factor)					
+					top_right_to_bottom_left_pan(self.zoom_factor, self.speed_factor)				
+				elif random_pan_zoom ==9:
+					bottom_left_to_top_right_pan(self.zoom_factor, self.speed_factor)			
+				elif random_pan_zoom ==10:
+					bottom_right_to_top_left_pan(self.zoom_factor, self.speed_factor)			
 				
 				if(self.linear_interpolation):
 					set_linear_interpolation()
@@ -547,6 +605,8 @@ operator_classes = (
 	PAN_ZOOM_OT_right_to_left_pan,
 	PAN_ZOOM_OT_top_left_to_bottom_right_pan,
 	PAN_ZOOM_OT_top_right_to_bottom_left_pan,
+	PAN_ZOOM_OT_bottom_left_to_top_right_pan,
+	PAN_ZOOM_OT_bottom_right_to_top_left_pan,
 	PAN_ZOOM_OT_add_blurred_background
 )
 
@@ -561,6 +621,8 @@ classes = (
 	PAN_ZOOM_OT_right_to_left_pan,
 	PAN_ZOOM_OT_top_left_to_bottom_right_pan,
 	PAN_ZOOM_OT_top_right_to_bottom_left_pan,
+	PAN_ZOOM_OT_bottom_left_to_top_right_pan,
+	PAN_ZOOM_OT_bottom_right_to_top_left_pan,	
 	PAN_ZOOM_OT_add_blurred_background,
 	SEQUENCER_MT_main
 )
