@@ -120,8 +120,8 @@ def bottom_to_top_pan(zoom = 1.1, speed = 1.0):
 	end_frame = start_frame + ((end_frame - start_frame) / speed)
 
 	set_strip_zoom(strip, start_frame, zoom)
-	set_strip_offset(strip, start_frame, 0, y)
-	set_strip_offset(strip, end_frame, 0, -y)
+	set_strip_offset(strip, start_frame, 0, -y)
+	set_strip_offset(strip, end_frame, 0, y)
 
 def top_to_bottom_pan(zoom = 1.1, speed = 1.0):
 	strip, start_frame, end_frame, original_zoom = get_strip_and_strip_values()
@@ -133,8 +133,8 @@ def top_to_bottom_pan(zoom = 1.1, speed = 1.0):
 	end_frame = start_frame + ((end_frame - start_frame) / speed)
 
 	set_strip_zoom(strip, start_frame, zoom)
-	set_strip_offset(strip, start_frame, 0, -y)
-	set_strip_offset(strip, end_frame, 0, y)
+	set_strip_offset(strip, start_frame, 0, y)
+	set_strip_offset(strip, end_frame, 0, -y)
 
 def left_to_right_pan(zoom = 1.1, speed = 1.0):
 	strip, start_frame, end_frame, original_zoom = get_strip_and_strip_values()
