@@ -15,6 +15,8 @@ The addon category is "Sequencer".
 
 ## Importing sequences of images and videos
 
+https://user-images.githubusercontent.com/98447390/157609115-15cc8171-ba7f-44e9-a0af-1d7c5d3d9ace.mp4
+
 To import images and movies alike, go to the video editing view, click "Add" and select "Image/Movie sequence".
 A file dialog will pop up in which you can select all files to be imported.
 
@@ -38,41 +40,43 @@ If enabled, images and movies will be inserted after the currently selected fram
 
 ## Adding pan/zoom and blur effects to images
 
+https://user-images.githubusercontent.com/98447390/157609188-e4187710-bc3b-43a8-942a-d86df9869038.mp4
+
 To make a sequence of stills a bit more dynamic, some effects can be applied to them. When they where imported with the import tool, these effects, are already randomly applied. If an effect doesn't suite your need, you can clear it and afterwards apply one to your liking. They can be accessed in the sequencer by clicking "Image", selecting "Pan/Zoom tools" and chosing the respective tool.
 
 Effects are applied to a single marked clip.
 
 Options are zoom factor and speed, as described above.
 
-### Clear
-Clears the image clip from all animations. Be careful, not only the animations created with this tool, but all animations will be lost.
+- ### Clear
+  Clears the image clip from all animations. Be careful, not only the animations created with this tool, but all animations will be lost.
 
-### Zoom in
-A simple zoom in effect. 
+- ### Zoom in
+  A simple zoom in effect. 
 
-### Zoom out
-A simple zoom out effect.
+- ### Zoom out
+  A simple zoom out effect.
 
-### Top to bottom pan
-Image is panned from top to bottom.
+- ### Top to bottom pan
+  Image is panned from top to bottom.
 
-### Left to right pan
-Image is panned from left to right.
+- ### Left to right pan
+  Image is panned from left to right.
 
-### Right to left pan
-Image is panned from right to left.
+- ### Right to left pan
+  Image is panned from right to left.
 
-### Top_left_to_bottom_right_pan
-Image is panned diagonally from top left to bottom right corner.
+- ### Top_left_to_bottom_right_pan
+  Image is panned diagonally from top left to bottom right corner.
 
-### Top_right_to_bottom_left_pan
-Image is panned diagonally from top right to bottom left corner.
+- ### Top_right_to_bottom_left_pan
+  Image is panned diagonally from top right to bottom left corner.
 
-### Add_blurred_background
-The blurred background effect is especially for portrait images/movies, to make the black bars left and rigth a bit more pleasant.
+- ### Add_blurred_background
+  The blurred background effect is especially for portrait images/movies, to make the black bars left and rigth a bit more pleasant.
 
-## Closing remarks
-As I noticed that Blender VSE does only use one CPU, I strongly advise you to use [Parallel Renderer by Krzysztof Trzciński](https://github.com/elmopl/ktba/blob/master/scripts/addons/parallel_render.py).
+- ## Closing remarks
+  As I noticed that Blender VSE does only use one CPU, I strongly advise you to use [Parallel Renderer by Krzysztof Trzciński](https://github.com/elmopl/ktba/blob/master/scripts/addons/parallel_render.py).
 
 I am always open for honest feedback, merge requests and ideas for improving my code and this tool.
 Please be kind as this is my first open source project :)
