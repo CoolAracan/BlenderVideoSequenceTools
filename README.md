@@ -72,6 +72,8 @@ Image is panned diagonally from top right to bottom left corner.
 The blurred background effect is especially for portrait images/movies, to make the black bars left and rigth a bit more pleasant.
 
 ## Closing remarks
+As I noticed that Blender VSE does only use one CPU, I strongly advise you to use [Parallel Renderer by Krzysztof Trzciński](https://github.com/elmopl/ktba/blob/master/scripts/addons/parallel_render.py).
+
 I am always open for honest feedback, merge requests and ideas for improving my code and this tool.
 Please be kind as this is my first open source project :)
 
@@ -86,4 +88,4 @@ All images and videos are under [CC0-by-SA](https://creativecommons.org/licenses
 - [Four ladies wearing a yukata in front of the North Gate of Kiyomizu-dera temple Kyoto Japan by Basile Morin](https://commons.wikimedia.org/wiki/File:Blackberries_(Rubus_fruticosus).jpg)
 - [Mother and baby sperm whale by Gabriel Barathieu](https://commons.wikimedia.org/wiki/File:Blackberries_(Rubus_fruticosus).jpg)
 
-Videos was created using OBS Studio and converted using ffmpeg.
+Videos were created using OBS Studio and converted using ffmpeg.

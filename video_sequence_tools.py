@@ -528,7 +528,7 @@ class MULTI_FILE_IMPORT_OT_create(bpy.types.Operator):
 		context.view_layer.update()
 		bpy.ops.sequencer.refresh_all()
 
-		self.report({'INFO'}, "Imported " + str(added_files_counter) + "files successfully!")
+		self.report({'INFO'}, "Imported " + str(added_files_counter) + " files successfully!")
 
 
 	# ----------------------
