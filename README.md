@@ -75,8 +75,8 @@ Options are zoom factor and speed, as described above.
 - ### Add_blurred_background
   The blurred background effect is especially for portrait images/movies, to make the black bars left and rigth a bit more pleasant.
 
-- ## Closing remarks
-  As I noticed that Blender VSE does only use one CPU, I strongly advise you to use [Parallel Renderer by Krzysztof Trzciński](https://github.com/elmopl/ktba/blob/master/scripts/addons/parallel_render.py).
+## Closing remarks
+As I noticed that Blender VSE does only use one CPU, I strongly advise you to use [Parallel Renderer by Krzysztof Trzciński](https://github.com/elmopl/ktba/blob/master/scripts/addons/parallel_render.py).
 
 I am always open for honest feedback, merge requests and ideas for improving my code and this tool.
 Please be kind as this is my first open source project :)
