@@ -9,6 +9,7 @@ bl_info = {
 
 import bpy
 import random
+import math
 
 from bpy.props import (
 	StringProperty,
@@ -217,8 +218,11 @@ def top_right_to_bottom_left_pan(zoom = 1.1, speed = 1.0):
 
 def add_blurred_background():
 	strip, start_frame, end_frame, original_zoom = get_strip_and_strip_values()
-	
+
 	bpy.ops.sequencer.copy()
+
+	inverted_ratio = bpy.context.scene.render.resolution_x / strip.elements[0].orig_height
+	set_strip_zoom(strip, start_frame, inverted_ratio)
 	bpy.ops.sequencer.effect_strip_add(type='GAUSSIAN_BLUR')
 	effect = bpy.context.scene.sequence_editor.active_strip
 	effect.size_x = 100
@@ -227,6 +231,32 @@ def add_blurred_background():
 	bpy.ops.sequencer.paste()
 	duplicated_strip = bpy.context.scene.sequence_editor.active_strip
 	duplicated_strip.frame_start = start_frame
+
+	# if (abs(strip.transform.rotation) < 1e-9) or (math.pi - abs(strip.transform.rotation) < 1e-9):
+	# 	bpy.ops.sequencer.effect_strip_add(type='GAUSSIAN_BLUR')
+	# 	effect = bpy.context.scene.sequence_editor.active_strip
+	# 	effect.size_x = 100
+	# 	effect.size_y = 100
+
+	# 	bpy.ops.sequencer.paste()
+	# 	duplicated_strip = bpy.context.scene.sequence_editor.active_strip
+	# 	duplicated_strip.frame_start = start_frame
+
+	# elif (3 * math.pi / 2  - abs(strip.transform.rotation) < 1e-9) or (math.pi / 2 - abs(strip.transform.rotation) < 1e-9):
+	# 	inverted_ratio = bpy.context.scene.render.resolution_y / bpy.context.scene.render.resolution_x
+	# 	set_strip_zoom(strip, start_frame, inverted_ratio)
+	# 	bpy.ops.sequencer.effect_strip_add(type='GAUSSIAN_BLUR')
+	# 	effect = bpy.context.scene.sequence_editor.active_strip
+	# 	effect.size_x = 100
+	# 	effect.size_y = 100
+
+	# 	bpy.ops.sequencer.paste()
+	# 	duplicated_strip = bpy.context.scene.sequence_editor.active_strip
+	# 	duplicated_strip.frame_start = start_frame
+
+	# else:
+		# report({'WARNING'}, "Sorry rotation which are not a multitude of 90° are currently unsupported.")
+
 
 # ------------------------------------------
 # Classes for panning and zooming operators
