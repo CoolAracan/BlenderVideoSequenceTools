@@ -66,14 +66,14 @@ Options are zoom factor and speed, as described above.
 - ### Right to left pan
   Image is panned from right to left.
 
-- ### Top_left_to_bottom_right_pan
+- ### Top left to bottom right pan
   Image is panned diagonally from top left to bottom right corner.
 
-- ### Top_right_to_bottom_left_pan
+- ### Top right to bottom left pan
   Image is panned diagonally from top right to bottom left corner.
 
-- ### Add_blurred_background
-  The blurred background effect is especially for portrait images/movies, to make the black bars left and rigth a bit more pleasant.
+- ### Add blurred background
+  The blurred background effect is especially for portrait images/movies. To make the black bars left and rigth a bit more pleasant, the image is enlarged and blurred in the background.
 
 ## Closing remarks
 As I noticed that Blender VSE does only use one CPU, I strongly advise you to use [Parallel Renderer by Krzysztof Trzciński](https://github.com/elmopl/ktba/blob/master/scripts/addons/parallel_render.py).
